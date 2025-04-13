@@ -50,13 +50,14 @@ export const Jobs: CollectionConfig = {
                         },
                         {
                             name: 'description',
-                            type: 'richText',
+                            type: 'textarea',
                             required: true,
                         },
 
 
                         {
                             name: 'salary',
+                            label: 'Salary',
                             type: 'number',
                             required: true
                         },
@@ -70,5 +71,6 @@ export const Jobs: CollectionConfig = {
                 ]
             },
             ...COMMON_COLUMNS
-        ]
+        ],
+    timestamps: true
 }

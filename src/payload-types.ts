@@ -64,8 +64,6 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
-    'job-applications': JobApplicationAuthOperations;
-    questions: QuestionAuthOperations;
   };
   blocks: {};
   collections: {
@@ -97,58 +95,15 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user:
-    | (User & {
-        collection: 'users';
-      })
-    | (JobApplication & {
-        collection: 'job-applications';
-      })
-    | (Question & {
-        collection: 'questions';
-      });
+  user: User & {
+    collection: 'users';
+  };
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
-export interface JobApplicationAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
-export interface QuestionAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -174,10 +129,10 @@ export interface User {
   id: string;
   name: string;
   active?: boolean | null;
-  createdAt: string;
-  updatedAt: string;
   CreatedBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -214,27 +169,13 @@ export interface Job {
   id: string;
   title: string;
   location?: ('remote' | 'onsite' | 'hybrid') | null;
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+  description: string;
   salary: number;
   isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
   CreatedBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -243,21 +184,14 @@ export interface Job {
 export interface JobApplication {
   id: string;
   name: string;
+  email?: string | null;
   job?: (string | null) | Job;
   cv?: (string | null) | Media;
   status?: ('applied' | 'interviewing' | 'selected' | 'rejected') | null;
-  createdAt: string;
-  updatedAt: string;
   CreatedBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -266,28 +200,14 @@ export interface JobApplication {
 export interface Assesment {
   id: string;
   title: string;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  description?: string | null;
   job?: (string | null) | Job;
-  questons?: (string | null) | Question;
+  questons?: (string | Question)[] | null;
   status?: ('applied' | 'interviewing' | 'selected' | 'rejected') | null;
-  createdAt: string;
-  updatedAt: string;
   CreatedBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -296,21 +216,7 @@ export interface Assesment {
 export interface Question {
   id: string;
   title: string;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  description?: string | null;
   duration?: number | null;
   questionType?: ('mcq' | 'essay') | null;
   options?:
@@ -320,33 +226,11 @@ export interface Question {
         id?: string | null;
       }[]
     | null;
-  response?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  createdAt: string;
-  updatedAt: string;
+  response?: string | null;
   CreatedBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -380,19 +264,10 @@ export interface PayloadLockedDocument {
         value: string | Question;
       } | null);
   globalSlug?: string | null;
-  user:
-    | {
-        relationTo: 'users';
-        value: string | User;
-      }
-    | {
-        relationTo: 'job-applications';
-        value: string | JobApplication;
-      }
-    | {
-        relationTo: 'questions';
-        value: string | Question;
-      };
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -402,19 +277,10 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user:
-    | {
-        relationTo: 'users';
-        value: string | User;
-      }
-    | {
-        relationTo: 'job-applications';
-        value: string | JobApplication;
-      }
-    | {
-        relationTo: 'questions';
-        value: string | Question;
-      };
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
   key?: string | null;
   value?:
     | {
@@ -446,10 +312,10 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   active?: T;
-  createdAt?: T;
-  updatedAt?: T;
   CreatedBy?: T;
   updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -486,10 +352,10 @@ export interface JobsSelect<T extends boolean = true> {
   description?: T;
   salary?: T;
   isActive?: T;
-  createdAt?: T;
-  updatedAt?: T;
   CreatedBy?: T;
   updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -497,20 +363,14 @@ export interface JobsSelect<T extends boolean = true> {
  */
 export interface JobApplicationsSelect<T extends boolean = true> {
   name?: T;
+  email?: T;
   job?: T;
   cv?: T;
   status?: T;
-  createdAt?: T;
-  updatedAt?: T;
   CreatedBy?: T;
   updatedBy?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -522,10 +382,10 @@ export interface AssesmentsSelect<T extends boolean = true> {
   job?: T;
   questons?: T;
   status?: T;
-  createdAt?: T;
-  updatedAt?: T;
   CreatedBy?: T;
   updatedBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -544,17 +404,10 @@ export interface QuestionsSelect<T extends boolean = true> {
         id?: T;
       };
   response?: T;
-  createdAt?: T;
-  updatedAt?: T;
   CreatedBy?: T;
   updatedBy?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

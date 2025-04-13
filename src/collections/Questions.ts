@@ -6,7 +6,6 @@ export const Questions: CollectionConfig = {
     admin: {
         useAsTitle: 'title',
     },
-    auth: true,
     fields: [
         {
             name: "title",
@@ -17,7 +16,7 @@ export const Questions: CollectionConfig = {
         {
             name: "description",
             label: "Description",
-            type: "richText",
+            type: "textarea",
         },
         {
             name: "duration",
@@ -62,11 +61,12 @@ export const Questions: CollectionConfig = {
         {
             name: "response",
             label: "Response",
-            type: "richText",
+            type: "textarea",
             admin: {
                 condition: (data) => data.questionType === "essay",
             },
         },
         ...COMMON_COLUMNS
     ],
+    timestamps: true
 }

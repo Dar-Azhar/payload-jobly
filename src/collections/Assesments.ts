@@ -16,7 +16,7 @@ export const Assesments: CollectionConfig = {
         {
             name: 'description',
             label: "Description",
-            type: 'richText',
+            type: 'textarea',
         },
         {
             name: 'job',
@@ -29,6 +29,7 @@ export const Assesments: CollectionConfig = {
             label: "Questions",
             type: 'relationship',
             relationTo: 'questions',
+            hasMany: true
         },
         {
             name: "status",
@@ -56,4 +57,5 @@ export const Assesments: CollectionConfig = {
         ...COMMON_COLUMNS
 
     ],
+    timestamps: true
 }

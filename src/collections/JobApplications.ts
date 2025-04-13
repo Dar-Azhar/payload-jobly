@@ -10,7 +10,6 @@ export const JobApplications: CollectionConfig = {
         singular: "Job Application",
         plural: "Job Applications",
     },
-    auth: true,
     fields: [
         {
             name: "name",
@@ -60,4 +59,6 @@ export const JobApplications: CollectionConfig = {
         },
         ...COMMON_COLUMNS
     ],
+    timestamps: true
+
 }

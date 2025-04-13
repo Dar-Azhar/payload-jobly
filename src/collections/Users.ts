@@ -32,4 +32,5 @@ export const Users: CollectionConfig = {
     },
     ...COMMON_COLUMNS
   ],
+  timestamps: true,
 }
