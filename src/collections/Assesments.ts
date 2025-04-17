@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { COMMON_COLUMNS } from './Common-Fields'
+import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from './Jobs/hooks/jobsBeforeChange.hook'
 
 export const Assesments: CollectionConfig = {
     slug: 'assesments',
@@ -57,5 +58,8 @@ export const Assesments: CollectionConfig = {
         ...COMMON_COLUMNS
 
     ],
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+    }
 }

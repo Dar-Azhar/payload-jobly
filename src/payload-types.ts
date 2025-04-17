@@ -92,8 +92,12 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    settings: Setting;
+  };
+  globalsSelect: {
+    settings: SettingsSelect<false> | SettingsSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -129,7 +133,7 @@ export interface User {
   id: string;
   name: string;
   active?: boolean | null;
-  CreatedBy?: (string | null) | User;
+  createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -171,8 +175,9 @@ export interface Job {
   location?: ('remote' | 'onsite' | 'hybrid') | null;
   description: string;
   salary: number;
+  slug?: string | null;
   isActive: boolean;
-  CreatedBy?: (string | null) | User;
+  createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -188,7 +193,7 @@ export interface JobApplication {
   job?: (string | null) | Job;
   cv?: (string | null) | Media;
   status?: ('applied' | 'interviewing' | 'selected' | 'rejected') | null;
-  CreatedBy?: (string | null) | User;
+  createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -204,7 +209,7 @@ export interface Assesment {
   job?: (string | null) | Job;
   questons?: (string | Question)[] | null;
   status?: ('applied' | 'interviewing' | 'selected' | 'rejected') | null;
-  CreatedBy?: (string | null) | User;
+  createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -227,7 +232,7 @@ export interface Question {
       }[]
     | null;
   response?: string | null;
-  CreatedBy?: (string | null) | User;
+  createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
@@ -312,7 +317,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   active?: T;
-  CreatedBy?: T;
+  createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -351,8 +356,9 @@ export interface JobsSelect<T extends boolean = true> {
   location?: T;
   description?: T;
   salary?: T;
+  slug?: T;
   isActive?: T;
-  CreatedBy?: T;
+  createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -367,7 +373,7 @@ export interface JobApplicationsSelect<T extends boolean = true> {
   job?: T;
   cv?: T;
   status?: T;
-  CreatedBy?: T;
+  createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -382,7 +388,7 @@ export interface AssesmentsSelect<T extends boolean = true> {
   job?: T;
   questons?: T;
   status?: T;
-  CreatedBy?: T;
+  createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -404,7 +410,7 @@ export interface QuestionsSelect<T extends boolean = true> {
         id?: T;
       };
   response?: T;
-  CreatedBy?: T;
+  createdBy?: T;
   updatedBy?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -440,6 +446,46 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: string;
+  siteName: string;
+  siteDescription: string;
+  siteUrl: string;
+  contactEmail: string;
+  socialMediaLinks?:
+    | {
+        platform?: string | null;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  siteDescription?: T;
+  siteUrl?: T;
+  contactEmail?: T;
+  socialMediaLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

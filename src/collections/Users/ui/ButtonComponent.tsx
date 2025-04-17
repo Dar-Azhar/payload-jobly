@@ -1,7 +1,10 @@
 'use client'
 import React from 'react'
 import { useDocumentInfo } from '@payloadcms/ui'
-const ButtonComponent = (props) => {
+export interface ButtonComponentProps {
+    rowData: any
+}
+const ButtonComponent = (props: ButtonComponentProps) => {
     const { id, initialData } = useDocumentInfo();
     const fieldData = props.rowData || initialData
     const markAsActive = () => {

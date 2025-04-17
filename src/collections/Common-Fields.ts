@@ -21,10 +21,16 @@ export const COMMON_COLUMNS: Field[] = [
     // },
     {
         label: "createdBy",
-        name: "CreatedBy",
+        name: "createdBy",
         type: "relationship",
         hasMany: false,
         relationTo: "users",
+        admin: {
+            readOnly: true,
+            condition: (data) => {
+                return !!data?.createdBy
+            }
+        }
     },
     {
         label: "updatedBy",
@@ -32,5 +38,11 @@ export const COMMON_COLUMNS: Field[] = [
         type: "relationship",
         hasMany: false,
         relationTo: "users",
+        admin: {
+            readOnly: true,
+            condition: (data) => {
+                return !!data?.updatedBy
+            }
+        }
     }
 ]

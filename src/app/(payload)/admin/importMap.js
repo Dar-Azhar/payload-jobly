@@ -1,5 +1,5 @@
-import { default as default_7187a7aa03bf3bb3b212a6edc0502191 } from '../../../ButtonComponent'
+import { default as default_3a450f3f19a5d471a2c125652c9a90a5 } from '../../../collections/Users/ui/ButtonComponent'
 
 export const importMap = {
-  "/ButtonComponent#default": default_7187a7aa03bf3bb3b212a6edc0502191
+  "/collections/Users/ui/ButtonComponent#default": default_3a450f3f19a5d471a2c125652c9a90a5
 }

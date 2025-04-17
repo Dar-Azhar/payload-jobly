@@ -1,12 +1,23 @@
-import { CollectionConfig, } from "payload";
-import { COMMON_COLUMNS } from "./Common-Fields";
+import { CollectionConfig, FieldHook, FieldHookArgs } from "payload";
+import { COMMON_COLUMNS } from "../Common-Fields";
+import { Job } from "@/payload-types";
+import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from "./hooks/jobsBeforeChange.hook";
 
+const convertToSlug = (text: string) => {
+    return text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+}
+const beforeChangeSlugFieldJobsHook: FieldHook = async (args: FieldHookArgs<Job>) => {
+    const { data } = args
+    if (data?.title) {
+        data.slug = convertToSlug(data.title)
+    }
+}
 export const Jobs: CollectionConfig = {
     slug: 'jobs',
 
     admin: {
         useAsTitle: 'title',
-        defaultColumns: ['title', 'location'],
+        defaultColumns: ['title', 'location', "createdAt", "createdBy"],
     },
     fields:
         [
@@ -53,13 +64,19 @@ export const Jobs: CollectionConfig = {
                             type: 'textarea',
                             required: true,
                         },
-
-
                         {
                             name: 'salary',
                             label: 'Salary',
                             type: 'number',
                             required: true
+                        },
+                        {
+                            name: "slug",
+                            label: "Slug",
+                            type: "text",
+                            hooks: {
+                                beforeChange: [beforeChangeSlugFieldJobsHook],
+                            },
                         },
                         {
                             name: "isActive",
@@ -72,5 +89,8 @@ export const Jobs: CollectionConfig = {
             },
             ...COMMON_COLUMNS
         ],
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+    }
 }

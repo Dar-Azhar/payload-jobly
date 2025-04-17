@@ -7,25 +7,39 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Jobs } from './collections/Jobs'
 import { JobApplications } from './collections/JobApplications'
 import { Assesments } from './collections/Assesments'
 import { Questions } from './collections/Questions'
+import { Settings } from './globals/Settings'
+import { rootAfterErrorHook } from './hooks/root/rootAfterErrorHook'
+import { Jobs } from './collections/Jobs/Jobs'
+import { Users } from './collections/Users/Users'
+import { jobsEndpoint } from './collections/Jobs/endpoints/Jobs.endpoints'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
-    avatar: 'gravatar',
+    // avatar: 'gravatar',
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      actions: ['/collections/Users/ui/ButtonComponent'],
+      beforeDashboard: ['/collections/Users/ui/ButtonComponent'],
+    },
+
   },
+  // Root level Hooks
+  hooks: {
+    afterError: [rootAfterErrorHook],
+  },
+  endpoints: [jobsEndpoint],
   collections: [Users, Media, Jobs, JobApplications, Assesments, Questions],
+  globals: [Settings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

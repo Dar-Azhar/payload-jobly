@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
-import { COMMON_COLUMNS } from './Common-Fields'
+import { COMMON_COLUMNS } from '../Common-Fields'
+import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from '../Jobs/hooks/jobsBeforeChange.hook'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -25,12 +26,15 @@ export const Users: CollectionConfig = {
       type: 'ui',
       admin: {
         components: {
-          Field: '/ButtonComponent',
-          Cell: '/ButtonComponent',
+          Field: '/collections/Users/ui/ButtonComponent',
+          Cell: '/collections/Users/ui/ButtonComponent',
         }
       }
     },
     ...COMMON_COLUMNS
   ],
   timestamps: true,
+  hooks: {
+    beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+  }
 }
