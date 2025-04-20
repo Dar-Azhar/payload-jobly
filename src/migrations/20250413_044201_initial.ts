@@ -6,13 +6,58 @@ import {
 export async function up({ payload, req, session }: MigrateUpArgs): Promise<void> {
   // Migration code
   // THIS IS NOT RECOMMENDED WAY TO SEEDING DATA INTO DATABASE
-  const userDoc1 = await payload.create({
+  const admin = await payload.create({
     collection: 'users',
     data: {
       name: 'Admin',
       email: 'admin@admin.com',
       password: 'Admin123',
-      active: true
+      active: true,
+      role: 'admin'
+    }
+  })
+
+  const jobManager = await payload.create({
+    collection: 'users',
+    data: {
+      name: 'Job Manager',
+      email: 'jm@jm.com',
+      password: 'JobManager123',
+      active: true,
+      role: 'job-manager'
+    }
+  })
+
+  const assesmentManager = await payload.create({
+    collection: 'users',
+    data: {
+      name: 'Assesment Manager',
+      email: 'asm@asm.com',
+      password: 'AssesmentManager123',
+      active: true,
+      role: 'assesment-manager'
+    }
+  })
+
+  const applicationManager = await payload.create({
+    collection: 'users',
+    data: {
+      name: 'Application Manager',
+      email: 'am@am.com',
+      password: 'ApplicationManager123',
+      active: true,
+      role: 'application-manager'
+    }
+  })
+
+  const questionManager = await payload.create({
+    collection: 'users',
+    data: {
+      name: 'Question Manager',
+      email: 'qm@qm.com',
+      password: 'QuestionManager123',
+      active: true,
+      role: 'question-manager'
     }
   })
 
@@ -23,7 +68,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       description: 'We are looking for a talented software engineer to join our team.',
       location: 'remote',
       salary: 100000,
-      isActive: true
+      isActive: true,
+      createdBy: jobManager.id,
+      updatedBy: jobManager.id,
     }
   })
 
@@ -34,7 +81,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       description: 'We are looking for a talented product manager to join our team.',
       location: 'onsite',
       salary: 100000,
-      isActive: true
+      isActive: true,
+      createdBy: jobManager.id,
+      updatedBy: jobManager.id,
     }
   })
 
@@ -45,7 +94,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       description: 'We are looking for a talented UX designer to join our team.',
       location: 'hybrid',
       salary: 100000,
-      isActive: true
+      isActive: true,
+      createdBy: jobManager.id,
+      updatedBy: jobManager.id,
     }
   })
 
@@ -56,6 +107,8 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       email: 'LgMlG@example.com',
       status: 'applied',
       job: jobDoc1.id,
+      createdBy: applicationManager.id,
+      updatedBy: applicationManager.id,
     },
   })
 
@@ -66,6 +119,8 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       email: '9M4oZ@example.com',
       status: 'interviewing',
       job: jobDoc2.id,
+      createdBy: applicationManager.id,
+      updatedBy: applicationManager.id,
     }
   })
 
@@ -76,6 +131,8 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       email: 'LgMlG@example.com',
       status: 'selected',
       job: jobDoc3.id,
+      createdBy: applicationManager.id,
+      updatedBy: applicationManager.id,
     }
   })
 
@@ -86,7 +143,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       description: 'Explain the concept of React.',
       duration: 30,
       questionType: 'essay',
-      response: 'write a short essay on React here...'
+      response: 'write a short essay on React here...',
+      createdBy: admin.id,
+      updatedBy: admin.id,
     }
   })
 
@@ -97,7 +156,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       description: 'Explain the concept of full stack development.',
       duration: 30,
       questionType: 'essay',
-      response: 'write a short essay on full stack development here...'
+      response: 'write a short essay on full stack development here...',
+      createdBy: admin.id,
+      updatedBy: admin.id,
     }
   })
 
@@ -108,7 +169,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       description: 'Explain the concept of a database.',
       duration: 30,
       questionType: 'essay',
-      response: 'write a short essay on a database here...'
+      response: 'write a short essay on a database here...',
+      createdBy: questionManager.id,
+      updatedBy: questionManager.id,
     }
   })
 
@@ -137,6 +200,8 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
           isCorrect: true,
         },
       ],
+      createdBy: questionManager.id,
+      updatedBy: questionManager.id,
     }
   })
 
@@ -165,6 +230,8 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
           isCorrect: false,
         },
       ],
+      createdBy: questionManager.id,
+      updatedBy: questionManager.id,
     },
   })
 
@@ -193,6 +260,8 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
           isCorrect: false,
         },
       ],
+      createdBy: questionManager.id,
+      updatedBy: questionManager.id,
     },
   })
 
@@ -202,7 +271,9 @@ export async function up({ payload, req, session }: MigrateUpArgs): Promise<void
       title: 'Software Engineer',
       description: 'This is a software engineer assesment.',
       job: jobDoc1.id,
-      questons: [question1.id, question2.id, question3.id, question4.id, question5.id, question6.id]
+      questons: [question1.id, question2.id, question3.id, question4.id, question5.id, question6.id],
+      createdBy: assesmentManager.id,
+      updatedBy: assesmentManager.id,
     }
   })
 }

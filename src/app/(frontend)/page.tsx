@@ -4,9 +4,7 @@ import React from 'react'
 
 import config from '@/payload.config'
 import './styles.css'
-import { Menubar } from '@/libs/shadcn/components/ui/menubar'
-import { Button } from '@/libs/shadcn/components/ui/button'
-import { Card } from '@/libs/shadcn/components/ui/card'
+
 
 
 export default async function HomePage() {
@@ -17,12 +15,7 @@ export default async function HomePage() {
 
   return (
     <div className="home">
-      <Menubar></Menubar>
-      <h1 className="text-3xl font-bold underline text-center ">
-        Hello world!
-      </h1>
-      <Button className='text-center'>shadCN UI Test</Button>
-      <Card>card</Card>
+      <h1>Home Page</h1>
     </div>
   )
 }

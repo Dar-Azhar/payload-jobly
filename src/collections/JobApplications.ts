@@ -1,6 +1,9 @@
 import type { CollectionConfig } from 'payload'
 import { COMMON_COLUMNS } from './Common-Fields'
 import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from './Jobs/hooks/jobsBeforeChange.hook'
+import { AdminOnlyAccess } from '@/access/AdminOnlyAccess'
+import { AdminOrRoleAccess } from '@/access/AdminOrRoleAccess'
+import JOB_LOCATIONS from '@/app/(frontend)/jobs/[slug]/components/locations'
 
 export const JobApplications: CollectionConfig = {
     slug: 'job-applications',
@@ -30,8 +33,19 @@ export const JobApplications: CollectionConfig = {
             relationTo: "jobs",
         },
         {
-            name: "cv",
-            label: "CV",
+            name: "phone",
+            label: "Phone",
+            type: "number",
+        },
+        {
+            name: "location",
+            label: "Location",
+            type: "select",
+            options: JOB_LOCATIONS
+        },
+        {
+            name: "resume",
+            label: "Resume",
             type: "upload",
             relationTo: "media",
         },
@@ -63,6 +77,12 @@ export const JobApplications: CollectionConfig = {
     timestamps: true,
     hooks: {
         beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+    },
+    access: {
+        read: AdminOrRoleAccess('application-manager'),
+        create: AdminOrRoleAccess('application-manager'),
+        update: AdminOrRoleAccess('application-manager'),
+        delete: AdminOnlyAccess,
     }
 
 }

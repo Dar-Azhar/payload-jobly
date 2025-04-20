@@ -132,6 +132,7 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   name: string;
+  role: 'admin' | 'job-manager' | 'assesment-manager' | 'application-manager' | 'question-manager';
   active?: boolean | null;
   createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
@@ -152,7 +153,7 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -191,7 +192,48 @@ export interface JobApplication {
   name: string;
   email?: string | null;
   job?: (string | null) | Job;
-  cv?: (string | null) | Media;
+  phone?: number | null;
+  location?:
+    | (
+        | 'andhra_pradesh'
+        | 'arunachal_pradesh'
+        | 'assam'
+        | 'bihar'
+        | 'chhattisgarh'
+        | 'goa'
+        | 'gujarat'
+        | 'haryana'
+        | 'himachal_pradesh'
+        | 'jharkhand'
+        | 'karnataka'
+        | 'kerala'
+        | 'madhya_pradesh'
+        | 'maharashtra'
+        | 'manipur'
+        | 'meghalaya'
+        | 'mizoram'
+        | 'nagaland'
+        | 'odisha'
+        | 'punjab'
+        | 'rajasthan'
+        | 'sikkim'
+        | 'tamil_nadu'
+        | 'telangana'
+        | 'tripura'
+        | 'uttar_pradesh'
+        | 'uttarakhand'
+        | 'west_bengal'
+        | 'andaman_and_nicobar_islands'
+        | 'chandigarh'
+        | 'dadra_and_nagar_haveli_and_daman_and_diu'
+        | 'delhi'
+        | 'jammu_and_kashmir'
+        | 'ladakh'
+        | 'lakshadweep'
+        | 'puducherry'
+      )
+    | null;
+  resume?: (string | null) | Media;
   status?: ('applied' | 'interviewing' | 'selected' | 'rejected') | null;
   createdBy?: (string | null) | User;
   updatedBy?: (string | null) | User;
@@ -316,6 +358,7 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   active?: T;
   createdBy?: T;
   updatedBy?: T;
@@ -371,7 +414,9 @@ export interface JobApplicationsSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   job?: T;
-  cv?: T;
+  phone?: T;
+  location?: T;
+  resume?: T;
   status?: T;
   createdBy?: T;
   updatedBy?: T;

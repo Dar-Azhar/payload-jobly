@@ -29,7 +29,7 @@ export default buildConfig({
     },
     components: {
       actions: ['/collections/Users/ui/ButtonComponent'],
-      beforeDashboard: ['/collections/Users/ui/ButtonComponent'],
+      beforeDashboard: ['/collections/Users/ui/BeforeDashbaordComponent'],
     },
 
   },

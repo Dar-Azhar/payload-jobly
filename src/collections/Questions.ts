@@ -1,6 +1,9 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Where } from 'payload'
 import { COMMON_COLUMNS } from './Common-Fields'
 import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from './Jobs/hooks/jobsBeforeChange.hook'
+import { User } from '@/payload-types'
+import { AdminOnlyAccess } from "@/access/AdminOnlyAccess";
+
 
 export const Questions: CollectionConfig = {
     slug: 'questions',
@@ -72,5 +75,50 @@ export const Questions: CollectionConfig = {
     timestamps: true,
     hooks: {
         beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+    },
+    access: {
+        read: ({ req }) => {
+            const user: User | null = req?.user
+            if (user?.role === 'admin') {
+                return true
+            } else if (user?.role === 'question-manager') {
+                const where: Where = {
+                    createdBy: {
+                        equals: user?.id,
+                    },
+                }
+                return where
+            }
+            return false
+        },
+        create: ({ req }) => {
+            const user: User | null = req?.user
+            if (user?.role === 'admin') {
+                return true
+            } else if (user?.role === 'question-manager') {
+                const where: Where = {
+                    createdBy: {
+                        equals: user?.id,
+                    },
+                }
+                return where
+            }
+            return false
+        },
+        update: ({ req }) => {
+            const user: User | null = req?.user
+            if (user?.role === 'admin') {
+                return true
+            } else if (user?.role === 'question-manager') {
+                const where: Where = {
+                    createdBy: {
+                        equals: user?.id,
+                    },
+                }
+                return where
+            }
+            return false
+        },
+        delete: AdminOnlyAccess
     }
 }

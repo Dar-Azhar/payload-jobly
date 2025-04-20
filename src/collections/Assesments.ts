@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload'
 import { COMMON_COLUMNS } from './Common-Fields'
 import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from './Jobs/hooks/jobsBeforeChange.hook'
+import { AdminOrRoleAccess } from '@/access/AdminOrRoleAccess'
+import { AdminOnlyAccess } from '@/access/AdminOnlyAccess'
 
 export const Assesments: CollectionConfig = {
     slug: 'assesments',
@@ -61,5 +63,11 @@ export const Assesments: CollectionConfig = {
     timestamps: true,
     hooks: {
         beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+    },
+    access: {
+        read: AdminOrRoleAccess('assesment-manager'),
+        create: AdminOrRoleAccess('assesment-manager'),
+        update: AdminOrRoleAccess('assesment-manager'),
+        delete: AdminOnlyAccess,
     }
 }

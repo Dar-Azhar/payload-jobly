@@ -7,11 +7,40 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
-  auth: true,
+  auth: {
+    tokenExpiration: 60 * 60 * 24 * 30,
+  },
   fields: [
     {
       name: 'name',
       type: 'text',
+      required: true,
+    },
+    {
+      name: 'role',
+      type: 'select',
+      options: [
+        {
+          label: 'Admin',
+          value: 'admin',
+        },
+        {
+          label: 'Job Manager',
+          value: 'job-manager',
+        },
+        {
+          label: 'Assesment Manager',
+          value: 'assesment-manager',
+        },
+        {
+          label: 'Application Manager',
+          value: 'application-manager',
+        },
+        {
+          label: 'Question Manager',
+          value: 'question-manager',
+        },
+      ],
       required: true,
     },
     {

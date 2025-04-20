@@ -1,7 +1,10 @@
 import { CollectionConfig, FieldHook, FieldHookArgs } from "payload";
 import { COMMON_COLUMNS } from "../Common-Fields";
-import { Job } from "@/payload-types";
+import { Job, User } from "@/payload-types";
 import { commonCollectionBeforeChangeCreatedByUpdatedByHook } from "./hooks/jobsBeforeChange.hook";
+import { jobsEndpoint } from "./endpoints/Jobs.endpoints";
+import { AdminOnlyAccess } from "@/access/AdminOnlyAccess";
+import { AdminOrRoleAccess } from "@/access/AdminOrRoleAccess";
 
 const convertToSlug = (text: string) => {
     return text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -68,7 +71,13 @@ export const Jobs: CollectionConfig = {
                             name: 'salary',
                             label: 'Salary',
                             type: 'number',
-                            required: true
+                            required: true,
+                            access: {
+                                update: ({ req }) => {
+                                    const user: User | null = req?.user
+                                    return user?.role === 'admin'
+                                }
+                            }
                         },
                         {
                             name: "slug",
@@ -92,5 +101,19 @@ export const Jobs: CollectionConfig = {
     timestamps: true,
     hooks: {
         beforeChange: [commonCollectionBeforeChangeCreatedByUpdatedByHook],
+    },
+    endpoints: [jobsEndpoint],
+    access: {
+        read: ({ req }) => {
+            const user: User | null = req?.user
+            return (
+                user?.role === 'admin' ||
+                user?.role === 'application-manager' ||
+                user?.role === 'job-manager'
+            )
+        },
+        create: AdminOrRoleAccess('job-manager'),
+        update: AdminOrRoleAccess('job-manager'),
+        delete: AdminOnlyAccess,
     }
 }
