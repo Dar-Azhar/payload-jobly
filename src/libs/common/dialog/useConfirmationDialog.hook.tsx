@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DialogConfig, useDialog } from './useDialog.hook'
 
 export interface UseConfirmationDialogProps extends Partial<DialogConfig> {
@@ -5,7 +6,7 @@ export interface UseConfirmationDialogProps extends Partial<DialogConfig> {
     closeOnConfirm?: boolean
 }
 export function useConfirmationDialog(config?: UseConfirmationDialogProps) {
-    const { title, description, closeOnConfirm = false, onConfirm } = config || {}
+    const { title, description, closeOnConfirm = true, onConfirm } = config || {}
 
     const { openDialog, DialogElement, closeDialog } = useDialog({
         title: title || 'Are you sure?',

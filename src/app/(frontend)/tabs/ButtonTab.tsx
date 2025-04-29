@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import React from 'react'
@@ -40,11 +41,13 @@ const ButtonsTab = ({ someProp }: ButtonsTabProps) => {
 
             <CardContent>
                 <Tabs defaultValue="default" className="w-full">
-                    <TabsList className="grid grid-cols-4 gap-2 mb-6">
+                    <TabsList className="flex flex-wrap justify-start p-1 space-x-1 mb-4">
                         <TabsTrigger value="default">Variants</TabsTrigger>
                         <TabsTrigger value="icons">Icons</TabsTrigger>
                         <TabsTrigger value="iconChildren">Icon + Text</TabsTrigger>
                         <TabsTrigger value="loading">Loading</TabsTrigger>
+                        <TabsTrigger value="confirm">Confirm</TabsTrigger>
+                        <TabsTrigger value="endpoint">Endpoint</TabsTrigger>
                     </TabsList>
 
                     {/* --- VARIANTS --- */}
@@ -109,7 +112,12 @@ const ButtonsTab = ({ someProp }: ButtonsTabProps) => {
                         </div>
 
                         <div>
-                            <CommonButton icon="salad" iconPosition="right">
+                            <CommonButton
+                                icon={{
+                                    name: 'salad',
+                                    position: 'right',
+                                }}
+                            >
                                 Salad icon on right
                             </CommonButton>
                             <CodeBlock>{`<CommonButton icon="salad" iconPosition="right">\n  Salad icon on right\n</CommonButton>`}</CodeBlock>
@@ -126,7 +134,13 @@ const ButtonsTab = ({ someProp }: ButtonsTabProps) => {
                         </div>
 
                         <div>
-                            <CommonButton icon="salad" loading iconPosition="right">
+                            <CommonButton
+                                icon={{
+                                    name: 'salad',
+                                    position: 'right',
+                                }}
+                                loading
+                            >
                                 Loading with icon
                             </CommonButton>
                             <CodeBlock>{`<CommonButton icon="salad" loading iconPosition="right">\n  Loading with icon\n</CommonButton>`}</CodeBlock>
@@ -137,6 +151,77 @@ const ButtonsTab = ({ someProp }: ButtonsTabProps) => {
                             <CodeBlock>{`<CommonButton loading />`}</CodeBlock>
                         </div>
                     </TabsContent>
+
+                    {/* --- CONFIRM --- */}
+
+                    <TabsContent value="confirm">
+                        <CommonButton confirm={true}
+                            variant="destructive"
+                            onClick={() => {
+                                alert('Confirmed!')
+                            }}
+                        >Confirm
+                        </CommonButton>
+
+
+                        <CommonButton
+                            className={'m-5'}
+                            confirm={{
+                                title: 'Confirm Action',
+                                description: 'Are you sure you want to proceed?',
+                            }}
+                            onClick={() => {
+                                alert('confirmed')
+                            }}
+                        >
+                            Confirm with confirm object
+                        </CommonButton>
+                    </TabsContent>
+
+                    {/* --- ENDPOINT --- */}
+                    <TabsContent value="endpoint">
+                        <CommonButton endpoint={'/endpoint'}>endpoint with simple props</CommonButton>
+
+                        <CommonButton
+                            className={'m-5'}
+                            endpoint={{
+                                url: '/endpoint',
+                                method: 'POST',
+                                confirm: {
+                                    title: 'Confirm Action',
+                                    description: 'Are you sure you want to proceed?',
+                                },
+                                onSuccess: (data) => {
+                                    alert('success')
+                                },
+                                onError: (error) => {
+                                    alert('error')
+                                },
+                            }}
+                        >
+                            endpoint with endpoint object
+                        </CommonButton>
+
+                        <CommonButton
+                            className={'m-5'}
+                            icon={{
+                                name: 'trash',
+                            }}
+                            variant={'destructive'}
+                            endpoint={{
+                                url: '/endpoint',
+                                method: 'POST',
+                                confirm: false,
+                                onSuccess: (data) => {
+                                    alert('success')
+                                },
+                                onError: (error) => {
+                                    alert('error')
+                                },
+                            }}
+                        />
+                    </TabsContent>
+
                 </Tabs>
 
                 <Separator className="my-6" />
