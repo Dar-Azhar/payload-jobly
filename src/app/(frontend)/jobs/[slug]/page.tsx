@@ -4,7 +4,7 @@ import config from '@payload-config'
 import ApplyJob from './components/ApplyJob'
 
 
-const page = async ({ params }) => {
+const page = async ({ params }: { params: { slug: string } }) => {
     const { slug } = await params
 
     const payload = await getPayload({ config })

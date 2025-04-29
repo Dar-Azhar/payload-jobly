@@ -20,24 +20,24 @@ export const jobsEndpoint: Endpoint = {
             const job_id = formData.get("job_id") as string;
             const resume = formData.get("resume") as File | null;
             let resumeId = null;
-            if(resume){
+            if (resume) {
 
-            const buffer = Buffer.from(await resume.arrayBuffer());
-            const uploadedFile = await payload.create({
-                collection: "media",
-                file: {
-                    data: buffer,
-                    mimetype: resume.type,
-                    name: resume.name,
-                    size: resume.size,
-                },
-                data: {
-                    alt: "Resume",
-                },
-            });
-            resumeId = uploadedFile.id;
+                const buffer = Buffer.from(await resume.arrayBuffer());
+                const uploadedFile = await payload.create({
+                    collection: "media",
+                    file: {
+                        data: buffer,
+                        mimetype: resume.type,
+                        name: resume.name,
+                        size: resume.size,
+                    },
+                    data: {
+                        alt: "Resume",
+                    },
+                });
+                resumeId = uploadedFile.id;
 
-        }
+            }
             const jobApplication: JobApplication = await payload.create({
                 collection: "job-applications",
                 data: {
@@ -51,7 +51,7 @@ export const jobsEndpoint: Endpoint = {
             });
             return NextResponse.json({
                 message: "Job application submitted successfully",
-                status: 200,
+                status: 201,
                 data: jobApplication
             })
 

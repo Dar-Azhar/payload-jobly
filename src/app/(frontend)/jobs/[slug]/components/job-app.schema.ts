@@ -45,7 +45,7 @@ export const JobApplyFormSchema = z.object({
         message: 'Please select a valid location',
     }),
     job_id: z.string().nonempty('Please select a valid job'),
-    resume: resumeSchema.optional(),
+    resume: resumeSchema as z.ZodType<File | { mimetype: string; size: number } | undefined>
 })
 
 export type JobApplyFormSchemaType = z.infer<typeof JobApplyFormSchema>
