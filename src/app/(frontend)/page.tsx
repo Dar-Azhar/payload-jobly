@@ -7,6 +7,7 @@ import './styles.css'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/libs/shadcn/components/ui/tabs'
 import ButtonTab from './tabs/ButtonTab'
 import IconTab from './tabs/IconTab'
+import DialogTab from './tabs/DialogTab'
 
 
 
@@ -21,13 +22,16 @@ export default async function HomePage() {
         <TabsList>
           <TabsTrigger value="button">Buttons</TabsTrigger>
           <TabsTrigger value="icon">Icons</TabsTrigger>
-          <TabsTrigger value="dialogs">Dialogs</TabsTrigger>
+          <TabsTrigger value="dialog">Dialogs</TabsTrigger>
         </TabsList>
         <TabsContent value="button">
           <ButtonTab />
         </TabsContent>
         <TabsContent value="icon">
           <IconTab />
+        </TabsContent>
+        <TabsContent value="dialog">
+          <DialogTab />
         </TabsContent>
       </Tabs>
     </div>
